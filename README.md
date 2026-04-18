@@ -1,6 +1,6 @@
-# 🚀 Futures CLI Bot
+# 🚀 Futures CLI Bot with Streamlit UI
 
-A modular Python CLI application to place **Binance Futures Testnet (USDT-M)** orders with input validation, logging, and an enhanced interactive user experience.
+A modular Python application to place **Binance Futures Testnet (USDT-M)** orders with input validation, logging, and both CLI and Streamlit UI interfaces for an enhanced user experience.
 
 ---
 
@@ -8,7 +8,8 @@ A modular Python CLI application to place **Binance Futures Testnet (USDT-M)** o
 
 * ✅ Place **MARKET** and **LIMIT** orders
 * ✅ Supports both **BUY** and **SELL**
-* ✅ CLI + **interactive fallback input**
+* ✅ CLI interface with interactive fallback input
+* ✅ Streamlit web UI for easy order placement
 * ✅ Input validation (type, side, quantity, price)
 * ✅ Structured logging of:
 
@@ -26,6 +27,7 @@ A modular Python CLI application to place **Binance Futures Testnet (USDT-M)** o
 futures_cli_bot/
 │
 ├── cli.py                  # CLI entrypoint
+├── streamlit.py            # Streamlit UI entrypoint
 ├── requirements.txt        # Dependencies
 ├── sample_trading.log      # Sample logs (included)
 ├── .gitignore
@@ -98,7 +100,9 @@ API_SECRET_KEY=your_binance_testnet_secret_key
 
 ## ▶️ Usage
 
-### 1️⃣ MARKET Order
+### CLI Interface
+
+#### 1️⃣ MARKET Order
 
 ```bash
 python cli.py --symbol BTCUSDT --side BUY --type MARKET --quantity 0.001
@@ -106,7 +110,7 @@ python cli.py --symbol BTCUSDT --side BUY --type MARKET --quantity 0.001
 
 ---
 
-### 2️⃣ LIMIT Order
+#### 2️⃣ LIMIT Order
 
 ```bash
 python cli.py --symbol BTCUSDT --side SELL --type LIMIT --quantity 0.001 --price 65000
@@ -114,7 +118,7 @@ python cli.py --symbol BTCUSDT --side SELL --type LIMIT --quantity 0.001 --price
 
 ---
 
-### 3️⃣ Interactive Mode
+#### 3️⃣ Interactive Mode
 
 ```bash
 python cli.py
@@ -124,9 +128,21 @@ python cli.py
 
 ---
 
+### Streamlit UI
+
+Run the web interface:
+
+```bash
+streamlit run streamlit.py
+```
+
+👉 Opens a web browser with an intuitive UI for placing orders, viewing order details, and handling errors.
+
+---
+
 ### 🔐 Confirmation Step
 
-Before placing order:
+Before placing order (in both CLI and UI):
 
 ```
 Are you sure you want to place this order? (y/n)
@@ -171,7 +187,7 @@ A sample log file `sample_trading.log` is included demonstrating:
 
 ---
 
-## 🎁 Bonus Feature
+## 🎁 Bonus Features
 
 ### Enhanced CLI UX
 
@@ -179,6 +195,13 @@ A sample log file `sample_trading.log` is included demonstrating:
 * Partial CLI + interactive hybrid mode
 * Input validation with clear messages
 * Confirmation before execution
+
+### Streamlit Web UI
+
+* User-friendly web interface
+* Real-time order placement
+* Detailed order response display
+* Error handling with user notifications
 
 ---
 
@@ -217,4 +240,4 @@ This project demonstrates:
 * API integration with Binance Futures Testnet
 * Clean architecture and modular design
 * Robust validation and error handling
-* User-friendly CLI experience
+* User-friendly CLI and web UI experiences
