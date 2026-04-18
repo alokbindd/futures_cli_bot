@@ -142,7 +142,7 @@ streamlit run streamlit.py
 
 ### 🔐 Confirmation Step
 
-Before placing order (in both CLI and UI):
+Before placing order (CLI):
 
 ```
 Are you sure you want to place this order? (y/n)
