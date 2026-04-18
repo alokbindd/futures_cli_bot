@@ -12,9 +12,9 @@ def get_client():
     client.FUTURES_URL = "https://testnet.binancefuture.com/fapi"
     return client
 
-def get_current_price(client, symbol):
-    try:
-        ticker = client.futures_symbol_ticker(symbol=symbol)
-        return float(ticker["price"])
-    except Exception as e:
-        raise Exception(f"Failed to fetch current price: {str(e)}")
+# def get_current_price(client, symbol):
+#     try:
+#         ticker = client.futures_symbol_ticker(symbol=symbol)
+#         return float(ticker["price"])
+#     except Exception as e:
+#         raise Exception(f"Failed to fetch current price: {str(e)}")
