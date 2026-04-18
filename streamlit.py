@@ -8,21 +8,44 @@ import logging
 st.set_page_config(page_title="Futures Trading bot", layout="centered")
 
 st.markdown("<h1 style='text-align:center; color:RGB(200,200,0);'>Binance Futures Trading Bot</h1>", unsafe_allow_html=True)
+
 # st.title("Binance Futures Trading Bot", anchor=False)
+# st.sidebar.title("Trading Bot")
 
-st.markdown("---")
+# st.cache_resource()
+# def get_cached_client():
+#     return get_client()
 
-symbol = st.text_input("Symbol",value="BTCUSDT")
+# client = get_cached_client()
 
-side = st.selectbox("Side",["BUY","SELL"])
+# @st.cache_data(ttl=5, show_spinner=False)
+# def fetch_price(symbol):
+#     client = get_cached_client()
+#     return get_current_price(client, symbol)
 
-order_type = st.selectbox("Order type", ["MARKET","LIMIT"])
+with st.container():
+    st.subheader("📥 Order Input")
+    symbol = st.text_input("Symbol",value="BTCUSDT")
 
-quantity = st.number_input("Quantity", min_value=0.0, step=0.000100, format="%.6f")
+    side = st.selectbox("Side",["BUY","SELL"])
 
-price=None
-if order_type == "LIMIT":
-    price = st.number_input("Price", min_value=0.0, format='%.2f')
+    order_type = st.selectbox("Order type", ["MARKET","LIMIT"])
+    
+    # if order_type == "LIMIT":
+    #     current_price = None
+    #     with st.spinner(f"Fetching current {symbol} price..."):
+    #         try:
+    #             current_price = fetch_price(symbol.upper())
+    #             st.info(f"Current {symbol} price: {current_price}")
+    #         except:
+    #             st.warning("Could not fetch current price")
+
+    quantity = st.number_input("Quantity", min_value=0.0, step=0.000100, format="%.6f")
+    
+    price=None
+    if order_type == "LIMIT":
+        price = st.number_input("Price", min_value=0.0, step=100.00, format='%.2f')
+        st.caption("Tip: Set price close to current market price")
 
 st.markdown("---")
 
@@ -32,14 +55,11 @@ if "logger_initialized" not in st.session_state:
 
 if st.button("Place Order", type="primary", use_container_width=True):
     try:
-        #normalize
         symbol = symbol.upper()
         side = side.upper()
         order_type = order_type.upper()
         
         validate_order(symbol, side, order_type, quantity, price)
-        
-        client = get_client()
         
         logging.info(
             "Order Request: %s",
@@ -51,6 +71,9 @@ if st.button("Place Order", type="primary", use_container_width=True):
                 "price": price
             }
         )
+
+        client = get_client()
+
         with st.spinner("Placing order..."):
             order = place_order(client, symbol, side, order_type, quantity, price)
         
@@ -58,6 +81,7 @@ if st.button("Place Order", type="primary", use_container_width=True):
         
         logging.info(f"Order Response: {order}")
 
+        st.markdown("---")
         st.subheader("📊 Order Details")
         st.write(f"OrderID: {order['orderId']}")
         st.write(f"Symbol :{order['symbol']}")
@@ -67,8 +91,15 @@ if st.button("Place Order", type="primary", use_container_width=True):
             st.write(f"Price :{order['price']}")
         if 'avgPrice' in order:
             st.write(f"Average Price: {order['avgPrice']}")
+        
+        st.markdown("---")
+        with st.expander("🔍 View Full Response"):
+            st.json(order)
  
 
     except Exception as e:
         st.error(f"Error:{str(e)}")
         logging.error(f"Error: {str(e)}")
+
+st.markdown("---")
+st.caption("Built with Python, Streamlit & Binance API")
